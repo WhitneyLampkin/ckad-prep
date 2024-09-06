@@ -3,6 +3,7 @@
 ## 5.1 Understanding Pods
 
 ## 5.2 Understanding YAML
+- `kubectl explain [RESOURCE_NAME]`
 
 ## 5.3 GEnerating YAML Files
 
