@@ -4,6 +4,8 @@
 
 ## 5.2 Understanding YAML
 - `kubectl explain [RESOURCE_NAME]`
+- `kubectl explain [RESOURCE_NAME | less` - uses less to make it easier to navigate and read lots of output
+- `kubectl example pod.spec | less` - example usage to get more information about the pod.spec
 
 ## 5.3 GEnerating YAML Files
 
