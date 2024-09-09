@@ -1,6 +1,7 @@
 # Certified Kubernetes Application Developer (CKAD) Exam Prep
 Quick notes and cheat sheets to prep for the CKAD certification exam.
 
+[Official Kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
 
 ## Quick Environment Setup
 ```shell
@@ -13,6 +14,8 @@ export do="--dry-run=client -o yaml"
 # use kn ns-name to switch namespace quickly
 alias kn="kubectl config set-context --current -namespace "
 ```
+
+## Most Common Kubectl Commands
 
 ```shell
 ## Namespace
