@@ -1,5 +1,5 @@
 # Certified Kubernetes Application Developer (CKAD) Exam Prep
-Quick notes and cheat sheets to prep for the CKAD certification exam.
+Supplemental notes and cheat sheets to prep for the CKAD certification exam.
 
 [Official Kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
 
