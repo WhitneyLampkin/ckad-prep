@@ -2,6 +2,7 @@
 Supplemental notes and cheat sheets to prep for the CKAD certification exam.
 
 [Official Kubectl Quick Reference](https://kubernetes.io/docs/reference/kubectl/quick-reference/)
+[CKAD Cheatsheet](https://gist.github.com/WhitneyLampkin/2c2bca9b91ef66ce6d91662f44da1a30)
 
 ## Quick Environment Setup
 ```shell
