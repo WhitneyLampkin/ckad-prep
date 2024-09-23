@@ -28,6 +28,7 @@ k set resources -n restricted deploy restricteddeploy --limits=cpu=200m,memory=1
 ## Cleaning Up Resources
 
 ```yaml
+# This will not work because you need to specify a name or --all.
 k delete all
 k delete all --all
 k delete all --all --force --grace=-period=-1
