@@ -1,4 +1,6 @@
-# 4.7 Running Your First Application
+# Lesson 4
+
+## 4.7 Running Your First Application
 
 ### Reminders
 - `kubectl delete pod [POD_NAME]`
@@ -7,3 +9,8 @@
         - When replica sets are being used, pods are controlled by the replica sets and the replica sets are being controlled by the deployment.
         - Therefore, to delete a pod, the deployment would need to be deleted using `kubectl delete deploy [DEPLOYMENT_NAME]`.
         - If there are any related services, clean them up with `kubectl delete svc [SERVICE_NAME]`.
+     
+## 4.8 Setting up a Lab Environment
+
+### Reminders
+- `history` shows a list of the most recent commands ran in the terminal
