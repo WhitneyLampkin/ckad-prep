@@ -24,3 +24,13 @@ k set resources -n restricted deploy restrictedeploy --limits=cpu=200m,memory=2G
 k describe -n restricted deploy restricteddeploy
 k set resources -n restricted deploy restricteddeploy --limits=cpu=200m,memory=128M --requests=cpu=100m,memory=64M
 ```
+
+## Cleaning Up Resources
+
+```yaml
+k delete all
+k delete all --all
+k delete all --all --force --grace=-period=-1
+# Never use the following:
+k delete all --all -A --force --grace-period=-1
+```
