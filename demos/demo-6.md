@@ -13,7 +13,7 @@ k delete -f frontend-resources.yaml
 
 ```yaml
 k create ns restricted
-k create quota myquota -n resitrcted --hard=cpu=2,--memory=1G,pods=3
+k create quota myquota -n resitrcted --hard=cpu=2,memory=1G,pods=3
 k describe ns restricted
 # The next command should fail.
 k run pod restrictedpod --image=nginx -n restricted
