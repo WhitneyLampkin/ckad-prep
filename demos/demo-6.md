@@ -19,6 +19,7 @@ k describe ns restricted
 k run pod restrictedpod --image=nginx -n restricted
 # Adding quota for pods is better done using deployments.
 k create deploy restricteddeploy --image=nginx -n restricted
+# Still need to set the limits for the deployment.
 k set resources -n restricted deploy restrictedeploy --limits=cpu=200m,memory=2G
 k describe -n restricted deploy restricteddeploy
 k set resources -n restricted deploy restricteddeploy --limits=cpu=200m,memory=128M --requests=cpu=100m,memory=64M
