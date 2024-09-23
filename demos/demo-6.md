@@ -17,6 +17,7 @@ k create quota myquota -n resitrcted --hard=cpu=2,memory=1G,pods=3
 k describe ns restricted
 # The next command should fail.
 k run pod restrictedpod --image=nginx -n restricted
+# Adding quota for pods is better done using deployments.
 k create deploy restricteddeploy --image=nginx -n restricted
 k set resources -n restricted deploy restrictedeploy --limits=cpu=200m,memory=2G
 k describe -n restricted deploy restricteddeploy
