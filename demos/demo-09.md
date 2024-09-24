@@ -22,4 +22,26 @@ sudo vim /etc/hosts
 $(minikube ip) nginxsvc.info
 k get ingress # wait until the ip address is shown
 curl nginxsvc.info
+
+# Creating deployment for the newdep service
+k create deployment newdep --image-gcr.io/google-samples/hello-app:2.0
+k expose deployment newdep --port=8080
+# Verify
+curl nginxsvc.info/hello
+
+# --------------------------------------------------------------------------------------
+
+# Creating Different Ingress Types
+
+# Single service type: 1 rule that defines access to one backend Service resource
+k create ingress single --rule="files=filesservice:8080"
+
+# Simple fanout type: 2 or more rules defining different paths that refer to different services (see example above)
+k create ingress single --rule="/files=filesservice:80" --rule="/db=dbservice:80"
+
+# Name-based virtual hosting: 2 or more rules that route requests based on the host header
+# Must be a DNS host for each header
+k create ingress multihost --rule="my.example.com/files*=filesservice:80" --rule="my.example.org/data*=dataservice:80"
 ```
+
+##
