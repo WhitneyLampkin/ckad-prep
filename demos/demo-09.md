@@ -62,3 +62,17 @@ k edit ingress multihost # change pathType to Prefix
 curl saturn.example.com
 curl mars.example.com
 ```
+
+# Ingress Trouble-shooting Steps
+
+```yaml
+# Get list of all ingress resources and verify the one in question is shown
+k get ingress
+# Look closer into the ingress resource in question
+k describe ingress [INGRESS_NAME]
+# If no issues, look closer into the service.
+# The backend column is prefixed with the service name.
+# Look closer into service and specifically check for valid Endpoints.
+k get service [SERVICE_NAME]
+k get pods
+```
