@@ -11,9 +11,9 @@ k get pods -n ingress-nginx
 ```
 
 ## Creating Ingress
-> _NOTE: Continued from Lesson 8.4_
 
 ```yaml
+# Continued from Lesson 8.4
 k get deployment
 k get svc nginxsvc
 curl http://$(minikube ip):32000
