@@ -44,3 +44,25 @@ k rollout history deployment rolling-nginx --revision=1
 k rollout undo deployment rolling-nginx --to-revision=1
 ```
 
+## Setting up Autoscaling (OPTIONAL - NOT ON EXAM)
+
+```yaml
+# Resources: https://github.com/sandervanvugt/ckad
+cd ckad/autoscaling
+docker build -t php-apache .
+# Using the image from teh Dockerfile as provided by the image registry
+k apply -f hpa.yaml
+k autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+k get hpa
+
+# Switch to another terminal
+k run -it load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache;done"
+
+# Back to original terminal
+minikube addons enable metrics-server
+k get hpa
+k get deploy php-apache
+k delete pod load-generator
+k get hpa
+k get deploy php-apache
+```
