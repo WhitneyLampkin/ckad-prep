@@ -17,7 +17,7 @@ k get endpoints
 ```yaml
 # Continued from above
 minikube ssh
-curl https://svc-ip-address
+curl https://[SVC_IP_ADDRESS] # need to figure out why this doesn't work
 exit
 k edit svc nginxsvc
   ...
