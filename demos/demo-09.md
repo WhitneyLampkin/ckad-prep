@@ -74,5 +74,6 @@ k describe ingress [INGRESS_NAME]
 # The backend column is prefixed with the service name.
 # Look closer into service and specifically check for valid Endpoints.
 k get service [SERVICE_NAME]
-k get pods
+# Get labels from previous command to find pods
+k get pods --show-labels # confirm labels
 ```
