@@ -76,4 +76,6 @@ k describe ingress [INGRESS_NAME]
 k get service [SERVICE_NAME]
 # Get labels from previous command to find pods
 k get pods --show-labels # confirm labels
+# Or get pods by label, if known
+k get pods -l key=value
 ```
