@@ -51,7 +51,10 @@ k create deploy mars --image-nginx
 k create deploy saturn --image=httpd
 k expose deploy mars --port=80
 k expose deploy saturn --port=80
+# Get minikube ip
+minikube ip
 # Add entris to /etc/hosts
+sudo vim /etc/hosts
 # $(minikube ip) mars.example.com
 # $(minikube ip) saturn.example.com
 k create ingress multihost --rule="mars.example.com/=mars:80" --rule="saturn.example.com/=saturn:80"
