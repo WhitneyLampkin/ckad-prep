@@ -28,3 +28,6 @@ Lesson 10: Managing Kubernetes Storage
   - Persistent Volume Claim (PVC) used to connect to it
   - PVC communicates with backend storage provider and dynamically uses volumes available on that storage type
 - PVC binds to a PV according to requested volume accessModes and capacity
+
+## 10.4 Configuring PVCs
+
