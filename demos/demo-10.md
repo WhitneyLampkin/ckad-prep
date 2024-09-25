@@ -35,3 +35,16 @@ k get pv
 k describe pvc pv-claim
 k describe pv [PV_NAME]
 ```
+
+## Using PVCs for Pods
+
+```yaml
+cat pvc-pod.yaml # provided file
+k create -f pvc pvc-pod.yaml
+k get pvc
+k get pv
+k describe pv [PV_NAME]
+k exec nginx-pvc-pod.yaml -- touch /usr/share/nginx/html/testfile
+minikube ssh
+ls /temp/hostpath-provisioner/default/nginx-pvc
+```
