@@ -22,3 +22,16 @@ k describe pv pv-volume
 # Verify creation in minikube
 minikube ssh
 ```
+
+## Configuring PVCs
+
+```yaml
+k create -f pvc.yaml # provided file
+# Look into created pvc
+# Check for bound status and creation of volume (PV)
+k get pvc
+# Look deeper into created PV
+k get pv
+k describe pvc pv-claim
+k describe pv [PV_NAME]
+```
