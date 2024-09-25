@@ -11,3 +11,10 @@ k describe pods morevol | less  # verify there are two containers in the pod
 k exec -it morevol2 -c centos1 -- touch /centos1/test
 k exec -it morevol2 -c centos2 -- ls -l /centos2
 ```
+
+## Defining Persistent Volumes
+
+```yaml
+cat pv.yaml # provided file
+kubectl create -f pv.yaml
+```
