@@ -17,4 +17,8 @@ k exec -it morevol2 -c centos2 -- ls -l /centos2
 ```yaml
 cat pv.yaml # provided file
 kubectl create -f pv.yaml
+k get pv
+k describe pv pv-volume
+# Verify creation in minikube
+minikube ssh
 ```
