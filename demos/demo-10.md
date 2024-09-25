@@ -48,3 +48,14 @@ k exec nginx-pvc-pod.yaml -- touch /usr/share/nginx/html/testfile
 minikube ssh
 ls /temp/hostpath-provisioner/default/nginx-pvc
 ```
+
+## Explore StorageClass
+
+```yaml
+k create -f pvc.yaml
+k get pc
+k describe pv [PV_NAME]
+cat pv-pvc-pod.yaml
+k create -f pv-pvc.pod.yaml
+k get pv
+```
