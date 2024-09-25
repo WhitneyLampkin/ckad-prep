@@ -31,3 +31,10 @@ Lesson 10: Managing Kubernetes Storage
 
 ## 10.4 Configuring PVCs
 
+
+## 10.5 Configuring Pod Storage w/ PV and PVC
+
+- Using PVCs for Pods
+  - Using PVC storage decouples site-specific info from generic pod specification
+  - pod.volume.spec is set to PVC and PVC finds available PV storage
+  - PVCs are usuaally distributed with PVs
