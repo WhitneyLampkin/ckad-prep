@@ -19,3 +19,23 @@ vim d-lesson11
 
 
 ## Instructor's Solution
+
+```yaml
+echo hello world > index.html
+k create cm lab11cm --from-file=index.html
+k describe cm lab11cm
+k create secret generic lab11secret --from-literal=MYPASSWORD=verysecret
+k get secrets lab11secret -o yaml
+k create deployment lab11deploy --image=nginx
+k set env deploy lab11deploy --from=secret/lab11secret
+k edit deployment.apps lab11deploy
+# Get yaml from kubernetes.io to populate a volume with data stored in a ConfigMap
+# Not sure why these extra steps were taken but k edit should automatically redeploy, right?
+k get deploy lab11deploy -o yaml > lab11deploy.yaml
+k delete deployment.apps lab11deploy
+vim lab11deploy.yaml
+k create -f lab11deploy.yaml
+# Run and test the changes
+k exec lab11deplo-XXXXXX-XXXXX -- cat /usr/share/nginx/html/index.html
+k exec lab11deploy-XXXXXX-XXXXX -- env
+```
