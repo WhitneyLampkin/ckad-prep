@@ -8,3 +8,4 @@
 - Multiple vars can be specified with from literal but only 1 file can be used with from-env-file
 - ConfigMaps have to be added to deployments after creation
   - `k set env --from=configmap/[CM_NAME] deploy/[DEPLOYMENT_NAME]`
+- `dry-run=client` can be used during ConfigMap creation
