@@ -19,3 +19,5 @@ k logs [POD_NAME]
 k set env deploy [DEPLOYMENT_NAME] MYSQL_ROOT_PASSWORD=password
 k get deploy [DEPLOYMENT_NAME] -o yaml > [ENTER_NEW_FILE_NAME].yaml
 ```
+
+## 
