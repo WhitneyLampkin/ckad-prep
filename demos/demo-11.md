@@ -58,3 +58,20 @@ k get secret -n kube-system coredns-token-XXXX -o yaml
 echo [ENCODED_NS] | base64 -d
 # This doesn't represent a real, secure k8s cluster.
 ```
+
+## Using Secrets to Provide Passwords
+
+```yaml
+k create secret generic [SECRET_NAME] --from-literal=ROOT_PASSWORD=password
+k describe secret [SECRET_NAME]
+k get secret [SECRET_NAME] -o yaml
+k create deploy [DEPLOYMENT_NAME] --image=mariadb
+k set env deploy [DEPLOYMENT_NAME] --from=secret/[SECRET_NAME] --prefix=MYSQL_
+  # ROOT_PASSWORD becomes MYSQL_ROOT_PASSWORD
+```
+
+## Configuring a docker-registry Secret
+
+```yaml
+k create secret docker-registry [SECRET_NAME] --docker-username=[DOCKER_USERNAME] --docker-password=[SECRET_PASSWORD] --docker-email=[DOCKER_EMAIL] --docker-server=myregistry:5000
+```
