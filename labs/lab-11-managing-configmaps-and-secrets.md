@@ -7,4 +7,15 @@
 
 ## My Solution
 
+```yaml
+vim index.html
+# Add 'hello world' to index.html
+kubectl create configmap cm-lesson11 --from-file=index.html
+kubectl create secret generic secret-lesson11 --from-literal=MYPASSWORD=verysecret
+ k create deployment deployment-lesson11 --image=nginx --dry-run=client -o yaml > d-lesson11
+vim d-lesson11
+# Get ConfigMap and Secret templates from kubernetes.io and add to deployment
+```
+
+
 ## Instructor's Solution
