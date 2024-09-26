@@ -45,3 +45,16 @@ k edit deploy [DEPLOYMENT_NAME]
   # update volumes in spec.template.spec?
   # update volumeMounts in spec.template.spec.containers?
 ```
+
+## Exploring Kuebrnetes Secret Use
+
+```yaml
+k get pods -n kube-system [coredns-XXX-YYY] -o yaml
+  # look for ServiceAccount
+k get sa -n kube-system coredns -o yaml
+k get secret -n kube-system coredns-token-XXXX -o yaml
+  # look at the TLS materials provided (ca.crt and token)
+  # copy encoded namespace
+echo [ENCODED_NS] | base64 -d
+# This doesn't represent a real, secure k8s cluster.
+```
