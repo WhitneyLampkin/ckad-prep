@@ -2,7 +2,7 @@
 
 ## 11.3 Providing Variables with ConfigMaps
 
-- `k create cm` - creates new ConfigMap, variabels can be provided 2 ways:
+- `k create cm` - creates new ConfigMap, variables can be provided 2 ways:
   - `--from-env-file`: Example - `k create cm --from-env-file=[FILE]`
   - `--from-literal`: Example - `k create cm --from-literal=[KEY]=[VALUE]`
 - Multiple vars can be specified with from literal but only 1 file can be used with from-env-file
