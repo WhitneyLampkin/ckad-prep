@@ -36,15 +36,15 @@ alias kn="kubectl config set-context --current -namespace "
 
 ## Features
 
-The project's features are as follows:
+This project's features are as follows:
 
-⭐ Copilot
+⭐ Copilot - AI-generated exam prep resources and information (**CAUTION** Use at your own risk).
 <br />
-⭐ Demos
+⭐ Demos - Course demos from the official CKAD exam prep video series by O'Reilly.
 <br />
-⭐ Labs
+⭐ Labs - Lesson labs from the official CKAD exam prep video series by O'Reilly.
 <br />
-⭐ Lessons
+⭐ Lessons - Personal study notes from each of the 15 lessons in the video course.
 <br />
 
 <h1 align="center" style="border-bottom: none; margin-top: 50px;">
