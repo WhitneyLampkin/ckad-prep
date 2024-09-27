@@ -35,9 +35,13 @@ k auth can-i get pods --as [USER] # Ex. bob@example.com
 ## Using Service Accounts
 
 - For the exam, only focus on configuring an application to use a specific ServiceAccount
-  - `kubectl run [NEW_POD_NAME] --image=[IMAGE_NAME] --dry-run=client -o yaml >> [YAML_NAME]`
-  - `vim [YAML_NAME]`
-  - Get SA template from k8s.io and update yaml
+  - Imperative way
+    - `k get sa` - get the list of SAs
+    - `k set sa -h` - set the service account
+  - Declarative way
+    - `kubectl run [NEW_POD_NAME] --image=[IMAGE_NAME] --dry-run=client -o yaml >> [YAML_NAME]`
+    - `vim [YAML_NAME]`
+    - Get SA template from k8s.io and update yaml
 - No need to configure Roles or RoleBindings
 
 ```yaml
