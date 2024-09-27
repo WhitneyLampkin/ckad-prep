@@ -29,3 +29,14 @@ helm show all bitnami/mysql
 helm list
 helm status mysql-xxxx
 ```
+
+## Customizing Before Install
+
+```yaml
+helm show values bitnami/nginx
+helm pull bitnami/nginx
+tar xvf nginx-xxxx
+vim nginx/values.yaml
+helm template --debug nginx
+helm install -f nginx/values.yaml my-nginx nginx/
+```
