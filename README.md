@@ -40,15 +40,12 @@ The project's features are as follows:
 
 ⭐ Copilot
 <br />
-⭐ Lessons
+⭐ Demos
 <br />
 ⭐ Labs
 <br />
-⭐ 
-
-## License
-
-GNU General Public License 3.0, see [LICENSE](./LICENSE).
+⭐ Lessons
+<br />
 
 <h1 align="center" style="border-bottom: none; margin-top: 50px;">
     <a href="https://github.com/WhitneyLampkin/devscriber" target="_blank">
