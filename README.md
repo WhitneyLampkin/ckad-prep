@@ -1,6 +1,6 @@
 <h1 align="center" style="border-bottom: none">
     <a href="https://github.com/WhitneyLampkin/devscriber" target="_blank">
-        <img alt="" src="https://github.com/WhitneyLampkin/devscriber/blob/main/assets/Designer.png?raw=true" style="border-radius: 50%; height: 100px;">
+        <img alt="" src="https://github.com/WhitneyLampkin/ckad-prep/blob/main/studying_whale_icon.png" style="border-radius: 50%; height: 100px;">
     </a>
     <br>
     Certified Kubernetes Application Developer (CKAD) Exam Prep
@@ -49,6 +49,6 @@ This project's features are as follows:
 
 <h1 align="center" style="border-bottom: none; margin-top: 50px;">
     <a href="https://github.com/WhitneyLampkin/devscriber" target="_blank">
-        <img alt="" src="https://github.com/WhitneyLampkin/devscriber/blob/main/assets/Designer.png?raw=true" style="border-radius: 5%; height: 150px;">
+        <img alt="" src="https://github.com/WhitneyLampkin/ckad-prep/blob/main/studying_whale_icon.png" style="border-radius: 5%; height: 150px;">
     </a>
 </h1>
