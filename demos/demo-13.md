@@ -97,5 +97,35 @@ k get backups
 
 ## Installing the Calico Network Plugin
 ```yaml
-
+minikube stop; minikube delete
+• minikube start --network-plugin=cni --extra-config=kubeadm.pod-
+network-cidr=10.10.0.0/16
+• kubectl create -f https://docs.projectcalico.org/manifests/tigera-
+operator.yaml
+• kubectl api-resources | grep tigera
+• kubecti get pods -n tigera-operator tigera-operator-xxx-yyy
+• wget https://docs.projectcalico.org/manifests/custom-resources.yaml
+sed-i-es/192.168.0.0/10.10.0.0/g custom-resources.yaml
+• kubectl get installation -o yaml
+• kubectl get pods -n calico-system
 ```
+
+Demo: Installing the Calico Network Plugin
+• minikube stop; minikube delete
+• minikube start --network-plugin=cni --extra-config=kubeadm.pod-
+network-cidr=10.10.0.0/16
+• kubectl create -f https://docs.projectcalico.org/manifests/tigera-
+operator.yaml
+• kubectl api-resources | grep tigera
+• kubecti get pods -n tigera-operator tigera-operator-xxx-yyy
+• wget https://docs.projectcalico.org/manifests/custom-resources.yaml
+sed-i-es/192.168.0.0/10.10.0.0/g custom-resources.yaml
+• kubectl get installation -o yaml
+• kubectl get pods -n calico-system
+
+Demo: Using a StatefulSet
+• cat sfs.yaml
+• kubectl create -f sfs.yaml
+• kubectl get all
+• kubectl get pvc
+
