@@ -46,9 +46,3 @@ This project's features are as follows:
 <br />
 ⭐ Lessons - Personal study notes from each of the 15 lessons in the video course.
 <br />
-
-<h1 align="center" style="border-bottom: none; margin-top: 50px;">
-    <a href="https://github.com/WhitneyLampkin/devscriber" target="_blank">
-        <img alt="" src="https://github.com/WhitneyLampkin/devscriber/blob/main/assets/Designer.png?raw=true" style="border-radius: 5%; height: 150px;">
-    </a>
-</h1>
