@@ -88,5 +88,65 @@ spec:
 ## Instructor's Result
 
 ```yaml
-
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-09-27T21:08:10Z"
+  labels:
+    run: busybox-sa
+  name: busybox-sa
+  namespace: default
+  resourceVersion: "700623"
+  uid: 87cdc1cd-3726-46b0-b4f0-6754e46f5a8f
+spec:
+  containers:
+  - image: busybox
+    imagePullPolicy: Always
+    name: busybox-sa
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-tp9m8
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: lab12sa
+  serviceAccountName: lab12sa
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-tp9m8
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
 ```
