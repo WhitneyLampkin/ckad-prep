@@ -11,6 +11,7 @@ vim lab7deploy.yaml
 k explain deploy.spec.strategy # use --recursive to see the hierarchy
 # Get template yaml code from k8s docs
 k create -f lab7deploy.yaml
+k set image deploy/lab7deploy nginx=nginx:latest
 ```
 
 ## Instructor's Solution
@@ -49,7 +50,7 @@ spec:
         app: lab7deploy
     spec:
       containers:
-      - image: nginx:1.9
+      - image: nginx:latest
         name: nginx
         resources: {}
   strategy:
