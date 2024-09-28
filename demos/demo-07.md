@@ -4,7 +4,7 @@
 
 ```yaml
 k create -f redis-deploy.yaml # errors on api version
-k get api-versions
+k api-versions
 # Edit redis-deploy.yaml and change apiVersion to apps/v2
 k create -f redis-deploy.yaml
 k edit deploy redis # change number of replicas
