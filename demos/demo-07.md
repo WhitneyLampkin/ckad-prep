@@ -3,9 +3,9 @@
 ## Managing Scalability
 
 ```yaml
-k create -f redis-deploy.yaml
+k create -f redis-deploy.yaml # errors on api version
 k get api-versions
-# Edit redis-deploy.yaml and change apiVErsion to apps/v2
+# Edit redis-deploy.yaml and change apiVersion to apps/v2
 k create -f redis-deploy.yaml
 k edit deploy redis # change number of replicas
 k get all
