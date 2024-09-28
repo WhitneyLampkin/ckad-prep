@@ -24,6 +24,7 @@ k get all --selector app=nginxup
 ## Investigating Current Settings
 
 ```yaml
+# Create bluelabel deployment
 k get deploy bluelabel -o yaml
 k edit deploy bluelabel # set maxUnavailable:2 and maxSurge:4
 k scale deploy bluelabel --replicas=4
