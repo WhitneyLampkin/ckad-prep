@@ -28,3 +28,10 @@ k get endpoints
   2. Port - service's assigned port
   3. NodePort - port exposed externally and accessible by users
       - only port that requires uniqueness
+
+# Observability
+
+```yaml
+# Check and verify liveness probe
+kubectl describe pod [POD_NAME] | grep -i liveness # ...or readiness, etc.
+```
