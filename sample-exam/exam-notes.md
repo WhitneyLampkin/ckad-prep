@@ -38,4 +38,7 @@ kubectl describe pod [POD_NAME] | grep -i liveness # ...or readiness, etc.
 # Create pod and execute command within container
 kubectl run busybox --image=busybox --restart=Never -- /bin/sh -c 'i=0; while true; do echo "$i: $(date)"; i=$((i+1)); sleep 1; done'
 kubectl logs busybox -f # follow the logs
+
+# Get CPU/memory utilization for nodes
+k top nodes
 ```
