@@ -1,7 +1,7 @@
 # Exam Notes
 Final notes from exam prep.
 
-# Networking & Services
+## Networking & Services
 
 ```yaml
 # Creating Services
@@ -29,7 +29,7 @@ k get endpoints
   3. NodePort - port exposed externally and accessible by users
       - only port that requires uniqueness
 
-# Observability
+## Observability
 
 ```yaml
 # Check and verify liveness probe
@@ -41,4 +41,16 @@ kubectl logs busybox -f # follow the logs
 
 # Get CPU/memory utilization for nodes
 k top nodes
+```
+## Advanced Pod Features
+
+```yaml
+# Taints allows nodes to repel a set of pods
+k taint nodes ...
+# Tolerations are added to pods to allow the scheduler to preferrably add them to the node with specific taint.
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
 ```
