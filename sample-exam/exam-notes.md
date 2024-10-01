@@ -54,3 +54,10 @@ tolerations:
   value: "value1"
   effect: "NoSchedule"
 ```
+
+## State Persistence
+
+```yaml
+# To connect to a specific container in a multicontainer pod
+k exec -it [POD] -c [CONTAINER] -- /bin/sh
+```
