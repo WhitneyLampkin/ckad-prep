@@ -1,6 +1,13 @@
 # Exam Notes
 Final notes from exam prep.
 
+## Pod
+
+```yaml
+# Use -rm to create a temp pod, which will be removed after running
+kubectl run busybox --rm --image=busybox -it  ...
+```
+
 ## Networking & Services
 
 ```yaml
