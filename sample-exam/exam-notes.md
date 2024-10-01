@@ -6,6 +6,8 @@ Final notes from exam prep.
 ```yaml
 # Use -rm to create a temp pod, which will be removed after running
 kubectl run busybox --rm --image=busybox -it  ...
+# Example
+kubectl run busybox --rm --image=busybox -it --restart=Never --wget -O- [PUT THE POD'S IP ADDRESS HERE]:80
 ```
 
 ## Networking & Services
