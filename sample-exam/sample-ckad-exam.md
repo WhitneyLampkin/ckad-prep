@@ -31,7 +31,7 @@ Using Sidecars
 Fixing a Deployment
 - Start the Deployment from the redis.yaml file in the course Git repository.
 - Fix any problems that may occur while starting it.
-- Using Probes
+Using Probes
 - Create a Pod that runs the nginx webserver
 - The webserver should be offering its services on port 80 and run in the ckad-ns3 Namespace
 - This Pod should check the /healthz path on the API-server before starting the main container
