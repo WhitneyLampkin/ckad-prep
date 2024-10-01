@@ -60,4 +60,7 @@ tolerations:
 ```yaml
 # To connect to a specific container in a multicontainer pod
 k exec -it [POD] -c [CONTAINER] -- /bin/sh
+
+# Copy a pod file to local directory
+kubectl cp [POD]:/etc/passwd ./passwd # kubectl cp command
 ```
