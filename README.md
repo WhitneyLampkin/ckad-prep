@@ -31,7 +31,7 @@ alias k=kubectl
 export do="--dry-run=client -o yaml"
 
 # use kn ns-name to switch namespace quickly
-alias kn="kubectl config set-context --current -namespace "
+alias kn="kubectl config set-context --current -namespace"
 ```
 
 ## Features
