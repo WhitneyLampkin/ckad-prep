@@ -12,6 +12,9 @@ k edit deploy ...
 # Get endpoints
 k describe svc ...
 k get endpoints
+
+# Create pod and expose port, which creates a Pod and Service
+kubectl run nginx --image=nginx --restart=Never --port=80 --expose
 ```
 
 - 3 types of networks
