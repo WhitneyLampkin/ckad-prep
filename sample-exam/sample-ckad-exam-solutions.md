@@ -110,7 +110,57 @@ k describe deploy nginx | grep -i image
 
 ```
 
+## Exposing Applications
 
+### My Solution
+```yaml
+k create deploy nginx-deployment --image=nginx:1.19 --replicas=3
+k get deploy nginx-deployment -o yaml
+kubectl expose deployment nginx-deployment --port=80 --target-port=8000 --type=NodePort -n ckad-ns6
+
+# How to setup ingress-controller, which is required for using Ingress
+```
+
+### Instructor's Solution
+```yaml
+
+```
+
+## Using Network Policies
+
+### My Solution
+```yaml
+
+```
+
+### Instructor's Solution
+```yaml
+
+```
+
+## 
+
+### My Solution
+```yaml
+
+```
+
+### Instructor's Solution
+```yaml
+
+```
+
+## 
+
+### My Solution
+```yaml
+
+```
+
+### Instructor's Solution
+```yaml
+
+```
 
 
 
