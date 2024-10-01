@@ -8,6 +8,9 @@ Final notes from exam prep.
 kubectl run busybox --rm --image=busybox -it  ...
 # Example
 kubectl run busybox --rm --image=busybox -it --restart=Never --wget -O- [PUT THE POD'S IP ADDRESS HERE]:80
+
+# k create deploy will automaticlaly set app label to name of deployment but to overwrite use
+kubectl label deployment foo --overwrite app=foo
 ```
 
 ## Networking & Services
