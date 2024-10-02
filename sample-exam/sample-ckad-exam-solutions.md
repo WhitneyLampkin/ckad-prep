@@ -49,7 +49,133 @@ k exec secretapp-7f8f9d4f9-h557n -- env # this is more streamlined than my metho
 
 ## Creating Custom Images (skipped)
 
+### My Solution
+```yaml
+# No attempt
+# Create dockerfile
+vi [FILE_NAME]
+# update file contents
+docker build -t .
+```
+
+### Instructor's Solution
+```yaml
+vim DOCKERFILE
+
+# update dockerfile
+  FROM alpine
+  CMD ["echo", "hello world"]
+
+# Build iamge
+docker build -t greetworld .
+
+# Verify
+docker images
+
+# Export
+docker save --help
+docker save -o greetworld.tar greetworld
+
+# Verify
+ls -l # look for tar file
+
+# For OCI, no changes are needed because DOCKERFILES are OCI compliant by default.
+```
+
 ## Using Sidecars (skipped)
+
+### My Solution
+```yaml
+k create ns ckad-ns3
+k run sidecar-pod -n ckad-ns3 --image=busybox --image=nginx -o yaml --dry-run=client > scpod.yaml
+vi scpod.yaml
+```
+
+### Instructor's Solution
+```yaml
+# Find Sidecar documentation, which includes the shared data and containers
+# Need to find the doc named 'Communicate Between Containers in the Same Pod Using a Shared Volume'
+# Update template
+# Search doc for setting up hostPath
+
+# To get the command syntax, generate template code
+k run busybox --dry-run=client -o yaml -- sh -c "while sleep 5; do date >> /var/log/date.log; done"
+
+# Copy generated command code into pod manifest
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pod
+  namespace: ckad-ns3
+spec:
+
+  restartPolicy: Never
+
+  volumes:
+  - name: shared-data
+    hostPath:
+      path: /mydata
+
+  containers:
+
+  - name: nginx-container
+    image: nginx
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/share/nginx/html
+
+  - name: busybox-container
+    image: busybox
+    volumeMounts:
+    - name: shared-data
+      mountPath: /var/log
+    - args:
+      - sh
+      - c
+      - while sleep 5; do date >> /var/log/date.log; done
+
+k create -f [POD_FILE].yaml # Fails because of indentation
+
+# Fix -args to args
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pod
+  namespace: ckad-ns3
+spec:
+
+  restartPolicy: Never
+
+  volumes:
+  - name: shared-data
+    hostPath:
+      path: /mydata
+
+  containers:
+
+  - name: nginx-container
+    image: nginx
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/share/nginx/html
+
+  - name: busybox-container
+    image: busybox
+    volumeMounts:
+    - name: shared-data
+      mountPath: /var/log
+    args:
+      - sh
+      - c
+      - while sleep 5; do date >> /var/log/date.log; done
+
+k create -f scpod.yaml
+k exec sidecar-pod -n ckad-ns3 -it -- /bin/sh
+# Inside of container
+  ls -a # look for specified file
+  cat /usr/share/nginx/html/date.log
+```
 
 ## Fixing a Deployment
 
