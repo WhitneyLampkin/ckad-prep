@@ -234,10 +234,13 @@ metadata:
   labels:
     test: liveness
   name: liveness-exec
+  namespace: ckad-ns3
 spec:
   containers:
   - name: nginx
     image: nginx
+    ports:
+      containerPort: 80
     readinessProbe:
       exec:
         command:
@@ -263,10 +266,13 @@ metadata:
   labels:
     test: liveness
   name: liveness-exec
+  namespace: ckad-ns3
 spec:
   containers:
   - name: nginx
     image: nginx
+    ports:
+      containerPort: 80
     readinessProbe:
       exec:
         command:
