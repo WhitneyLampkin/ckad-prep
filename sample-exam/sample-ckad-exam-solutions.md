@@ -82,7 +82,7 @@ ls -l # look for tar file
 # For OCI, no changes are needed because DOCKERFILES are OCI compliant by default.
 ```
 
-## Using Sidecars (skipped)
+## **Using Sidecars (skipped)
 
 ### My Solution
 ```yaml
@@ -185,6 +185,27 @@ k apply -f redis.yaml
 # Error because resource wasn't found in defined api version; changed from v1beta1 to v1
 k api-resources
 k apply -f redis.yaml
+k run nginx --image=nginx -o yaml --dry-run=client --port=80 -n ckad-ns3 > nginx.yaml
+vim nginx.yaml
+# Add template code for probe from docs
+k create ns ckad-ns3
+k apply -f nginx.yaml
+```
+
+### Instructor's Solution
+```yaml
+vim redis.yaml
+k create -f redis.yaml
+# Error message
+k api-versions # shows supported version of each api resource
+# Edit file to use v1
+k create -f redis.yaml # Succeeds
+```
+
+## Using Probes
+
+### My Solution
+```yaml
 k run nginx --image=nginx -o yaml --dry-run=client --port=80 -n ckad-ns3 > nginx.yaml
 vim nginx.yaml
 # Add template code for probe from docs
