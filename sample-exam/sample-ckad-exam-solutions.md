@@ -209,7 +209,10 @@ k apply -f pv.yaml
 
 ### My Solution
 ```yaml
-
+k create ns limited
+kubectl create quota my-quota --hard=cpu=1,pods=5,memory=2Gi -n limited
+k create deploy restrictginx -n limited --replicas=3 --image=nginx
+kubectl set resources deployment restrictginx --limits=memory=256Mi --requests=memory=64Mi -n limited
 ```
 
 ### Instructor's Solution
