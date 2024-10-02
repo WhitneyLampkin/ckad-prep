@@ -215,7 +215,41 @@ k apply -f nginx.yaml
 
 ### Instructor's Solution
 ```yaml
+# Docs - search for healthz api
+# Kubenetes API Endpoints doc
+# Get curl command - curl -k https://[IP]:[PORT]/healthz?verbose
+curl -k https://$(minikube ip):8443/healthz?verbose
+echo $? # shoudl show 0
+# Get api advertise address
+minikube ssh
+ps aux | grep api
+k get pods -n kube-system -o wide # Can also get the ip address this way for api server
 
+# Go back to docs and search for probes
+# Copy liveness probe into manifest file and update
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - curl
+        - k
+        - https://$192.168.49.2:8443/healthz?verbose
+      initialDelaySeconds: 5
+      periodSeconds: 5
 ```
 
 ## Creating a Deployment
