@@ -236,20 +236,47 @@ metadata:
   name: liveness-exec
 spec:
   containers:
-  - name: liveness
-    image: registry.k8s.io/busybox
-    args:
-    - /bin/sh
-    - -c
-    - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 600
-    livenessProbe:
+  - name: nginx
+    image: nginx
+    readinessProbe:
       exec:
         command:
         - curl
         - k
-        - https://$192.168.49.2:8443/healthz?verbose
+        - https://$192.168.49.2:8443/healthz
       initialDelaySeconds: 5
       periodSeconds: 5
+
+k create -f [POD_NAME].yaml
+k get pods
+# Wait a few seconds for the probe to run
+# Error, as is...troubleshoot
+k describe [POD]
+
+# Forgot '-k' instead of 'k'
+
+# Update yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    readinessProbe:
+      exec:
+        command:
+        - curl
+        - -k
+        - https://$192.168.49.2:8443/healthz
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+Recreate pod and verify it runs...
 ```
 
 ## Creating a Deployment
@@ -508,44 +535,3 @@ k apply -f pod-aa.yaml
 ```yaml
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
