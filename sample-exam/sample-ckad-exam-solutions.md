@@ -224,7 +224,49 @@ kubectl set resources deployment restrictginx --limits=memory=256Mi --requests=m
 
 ### My Solution
 ```yaml
+k create deploy myweb --image=nginx:1.14 --replicas=3
+k expose deploy myweb --type=NodePort --name=canary --port=80
+k get deploy myweb -o yaml > canarydeploy.yaml
+vi canarydeploy.yaml
 
+# Update deployment with canary values
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myweb-canary
+  name: myweb-canary
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: myweb-canary
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: myweb-canary
+    spec:
+      containers:
+      - image: nginx:1.14
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
 ```
 
 ### Instructor's Solution
