@@ -11,7 +11,15 @@ k run pod-b --image=nginx -n ckad-ns1
 
 ### Instructor's Solution
 ```yaml
-
+k create ns ckad-ns1
+# Verify
+k get ns
+k run pod-a --image=httpd -n ckad-ns1
+k run pod-b -n ckad-ns1 --image=alpine --dry-run=client -o yaml -- sleep 3600 > task1.yaml # On exam, name yaml files by question number
+vi task1.yaml
+# Update yaml as needed for requirements
+k create -f task1.yaml
+k get pods -n ckad-ns1
 ```
 
 ## Using Secrets
