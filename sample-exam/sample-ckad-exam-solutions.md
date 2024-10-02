@@ -130,7 +130,12 @@ kubectl expose deployment nginx-deployment --port=80 --target-port=8000 --type=N
 
 ### My Solution
 ```yaml
+k run my-network-policy --image=nginx --image=busybox -o yaml --dry-run=client --port=80 --expose -- /bin/sh sleep 3600 > nwpdeploy.yaml
 
+# Edit yaml with vim
+vi nwpdeploy.yaml
+
+k apply -f nwpdeploy.yaml
 ```
 
 ### Instructor's Solution
