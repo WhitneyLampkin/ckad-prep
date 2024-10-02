@@ -278,7 +278,34 @@ spec:
 
 ### My Solution
 ```yaml
+k run sleepybox --image=busybox:latest -o yaml --dry-run=client -- sleep 3600 > pod.yaml
+vi pod.yaml
+# Get securityContext template from docs and update pod.yaml
 
+# Create service account
+k create serviceaccount allaccess
+k run pod --image=nginx --dry-run=client -o yaml > pod-aa.yaml
+vi pod-aa.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: pod
+  name: pod
+spec:
+  serviceAccountName: allaccess
+  automountServiceAccountToken: false
+  containers:
+  - image: nginx
+    name: pod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+k apply -f pod-aa.yaml
 ```
 
 ### Instructor's Solution
