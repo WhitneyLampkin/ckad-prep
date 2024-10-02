@@ -143,7 +143,69 @@ k apply -f nwpdeploy.yaml
 
 ```
 
-## 
+## Using Storage
+
+### My Solution
+```yaml
+k create ns ckad-1311
+
+# vi pv.yaml
+# Add resources
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 1311-pv
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: normal
+  hostPath:
+    path: /etc/foo
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: 1311-pvc
+spec:
+  volumeName: 1311-pv
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: normal
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 1311-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+      - mountPath: "/webdata"
+        name: mypd
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: 1311-pvc
+
+# Create resources
+k apply -f pv.yaml
+```
+
+### Instructor's Solution
+```yaml
+
+```
+
+## Using Quota
 
 ### My Solution
 ```yaml
@@ -155,7 +217,19 @@ k apply -f nwpdeploy.yaml
 
 ```
 
-## 
+## Creating Canary Deployments
+
+### My Solution
+```yaml
+
+```
+
+### Instructor's Solution
+```yaml
+
+```
+
+## Managing Pod Permissions
 
 ### My Solution
 ```yaml
