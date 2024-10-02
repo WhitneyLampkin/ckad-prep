@@ -27,6 +27,7 @@ k get pods -n ckad-ns1
 ### My Solution
 ```yaml
 k create secret generic my-secret --from-literal=password=secret
+# Verify
 k get secrets
 k create deploy secretapp --image=nginx
 k set env --from=secret/my-secret deployment/secretapp
@@ -37,7 +38,13 @@ k exec -it secretapp-7f8f9d4f9-h557n -- sh
 
 ### Instructor's Solution
 ```yaml
-
+k create secret generic my-secret --from-literal=password=secret
+k describe secret my-secret
+k create deploy secretapp --image=nginx
+k set env --from=secret/my-secret deployment/secretapp # cannot pass env var while creating deployments with kubectl
+# Verify
+k get pods # look for secret app
+k exec secretapp-7f8f9d4f9-h557n -- env # this is more streamlined than my method
 ```
 
 ## Creating Custom Images (skipped)
