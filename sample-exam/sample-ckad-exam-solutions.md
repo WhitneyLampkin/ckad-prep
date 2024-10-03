@@ -684,7 +684,16 @@ spec:
           name: "http-server"
       volumeMounts:
         - mountPath: "/web/data"
-          name: 1312-pv
+          name: task-pv-container
+
+# Create
+k create -f task1512.yaml
+
+# Verify
+k -n ckad-1312 get pods,pv,pvc
+k exec -n ckad-1312 -it [POD] -- touch /web/data/testfile
+minikube ssh
+  $ ls /mnt/data # verify that we see the testfile from the hostPath
 ```
 
 ## Using Quota
