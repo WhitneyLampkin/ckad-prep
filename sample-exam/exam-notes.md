@@ -81,4 +81,6 @@ k exec -it [POD] -c [CONTAINER] -- /bin/sh
 
 # Copy a pod file to local directory
 kubectl cp [POD]:/etc/passwd ./passwd # kubectl cp command
+
+# use k describe pvc and checked UsedBy field to verify pods have mounted pvcs correctly
 ```
