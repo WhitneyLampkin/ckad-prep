@@ -47,7 +47,7 @@ k get pods # look for secret app
 k exec secretapp-7f8f9d4f9-h557n -- env # this is more streamlined than my method
 ```
 
-## Creating Custom Images (skipped)
+## ** Creating Custom Images (skipped)
 
 ### My Solution
 ```yaml
@@ -458,8 +458,64 @@ k apply -f nwpdeploy.yaml
 ```
 
 ### Instructor's Solution
-```yaml
+NETWORK POLICIES ARE ALL ABOUT THE LABELS!!!
 
+```yaml
+# Find Network Policy in docs
+# Paste in new file using vim
+# Find basic pod spec in docs and copy in twice for the two pods
+# Update manifest as needed
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  labels:
+    access: true
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    args:
+    - sleep
+    - "3600"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: frontend
+
+k create -f my-nw-policy.yaml # Create error - boolean in label; needs to be string; change true to allowed
+k expose pod nginx --port=80
+k exec -it busybox -- wget --spider --timeout=1 nginx # get timeout error
+
+# Need to label busybox pod with role=frontend
+k label pod busybox role=frontend
+
+k exec -it busybox -- wget --spider --timeout=1 nginx # should work now
 ```
 
 ## Using Storage
