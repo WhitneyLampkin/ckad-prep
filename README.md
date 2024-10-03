@@ -36,7 +36,7 @@ alias kn="kubectl config set-context --current -namespace"
 
 ## Features
 
-This project's features are as follows:
+This project's content is as follows:
 
 ⭐ Copilot - AI-generated exam prep resources and information (**CAUTION** Use at your own risk).
 <br />
