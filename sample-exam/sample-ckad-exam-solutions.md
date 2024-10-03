@@ -796,7 +796,32 @@ spec:
 
 ### Instructor's Solution
 ```yaml
+k create deploy myweb --image=nginx:1.14 --replicas=3
+k edit deploy myweb
 
+# Add label to deploy, pods and all resources
+  # type: canary
+
+# Verify
+k get all --selector type=canary
+
+# Expose canary deployment to its own service
+k expose deploy myweb --selector type=canary --port=80
+
+# Verify
+k describe svc myweb
+
+# Update deployment - means to create a new one for canary?
+k create deploy mynewweb --image=nginx:latest --replicas=2
+
+k edit deploy mynewweb
+
+# Set label to type: canary for the new deployment and pods as well
+
+
+# Verify 5 endpoints
+k describe svc myweb
+k get ep
 ```
 
 ## Managing Pod Permissions
