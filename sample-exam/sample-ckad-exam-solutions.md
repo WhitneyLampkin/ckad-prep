@@ -745,7 +745,7 @@ k set resources -n limited deployment restrictnginx --limits=memory=256Mi --requ
 k describe ns limited
 ```
 
-## Creating Canary Deployments
+## **Creating Canary Deployments
 
 ### My Solution
 ```yaml
@@ -825,14 +825,38 @@ k get ep
 ```
 
 ## **Managing Pod Permissions
-I WOULD HAVE GOTTEN THIS ALL WRONG. NEED TO REVIEW SECURITYCONTEXT AND SERVICEACCOUNTS.
 
 ### My Solution
 ```yaml
 k run sleepybox --image=busybox:latest -o yaml --dry-run=client -- sleep 3600 > pod.yaml
 vi pod.yaml
 # Get securityContext template from docs and update pod.yaml
+```
 
+### Instructor's Solution
+```yaml
+k run sleepybox --image=busybox --dry-run=client -o yaml -- sleep 3600 > task1515.yaml
+
+# Look up securityContext
+k explain pod.spec.securityContext | less
+
+vi task1515.yaml
+# Add securityContext info to spec
+
+spec:
+  securityContext:
+    fsGroup: 2000
+
+k create -f task1515.yaml
+
+# Verify
+k get pods sleepybox -o yaml
+```
+
+## Using a ServiceAccount
+
+### My Solution
+```yaml
 # Create service account
 k create serviceaccount allaccess
 k run pod --image=nginx --dry-run=client -o yaml > pod-aa.yaml
@@ -861,15 +885,15 @@ k apply -f pod-aa.yaml
 
 ### Instructor's Solution
 ```yaml
-k run sleepybox --image=busybox --dry-run=client -o yaml -- sleep 3600 > task1515.yaml
+# Create SA
+k create sa allaccess
 
-# Look up securityContext
-k explain pod.spec.securityContext | less
+# Create Pod
+k run allaccess --image=busybox --dry-run=client -o yaml -- sleep 3600 > task1516.yaml
 
-vi task1515.yaml
-# Add securityContext info to spec
+# Add SA to Pod
+vim task1516.yaml
+# Edit Service Account info
 
-spec:
-  securityContext:
-    fsgroup: 2000
+k describe pod [POD]
 ```
