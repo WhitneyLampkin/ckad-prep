@@ -306,7 +306,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  strategy: {}
+  strategy: {} # This is a duplicate that I forgot to remove
   template:
     metadata:
       creationTimestamp: null
@@ -336,7 +336,47 @@ k describe deploy nginx | grep -i image
 
 ### Instructor's Solution
 ```yaml
+k create deploy nginx-exam --image=nginx:1.18 --dry-run=client -o yaml > nginx-exam.yaml
 
+# modify manifest as needed for requirements
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx-exam
+    service: nginx
+  name: nginx-exam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-exam
+  strategy: {
+    rollingUpdate:
+     maxSurge: 3
+     maxUnavailable: 2
+  }
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx-exam
+        type: webshop
+    spec:
+      containers:
+      - image: nginx:1.18
+        name: nginx
+        resources: {}
+status: {}
+
+k create -f nginx-exam.yaml
+k get all --selector app=nginx-exam
+
+kubectl set image deployment/nginx-exam nginx=nginx:latest
+
+k get all --selector app=nginx-exam
 ```
 
 ## Exposing Applications
