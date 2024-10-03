@@ -129,7 +129,7 @@ spec:
     volumeMounts:
     - name: shared-data
       mountPath: /var/log
-    - args:
+    - args: # this will fail because of incorrect indentation; will need to remove the hyphen
       - sh
       - c
       - while sleep 5; do date >> /var/log/date.log; done
