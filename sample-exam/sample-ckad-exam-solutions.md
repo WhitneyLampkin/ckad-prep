@@ -379,7 +379,7 @@ kubectl set image deployment/nginx-exam nginx=nginx:latest
 k get all --selector app=nginx-exam
 ```
 
-## Exposing Applications
+## ** Exposing Applications
 
 ### My Solution
 ```yaml
@@ -388,11 +388,61 @@ k get deploy nginx-deployment -o yaml
 kubectl expose deployment nginx-deployment --port=80 --target-port=8000 --type=NodePort -n ckad-ns6
 
 # How to setup ingress-controller, which is required for using Ingress
+# Instructor says we won't have to configure Ingress in /etc/hosts or anything DNS related...
 ```
 
 ### Instructor's Solution
 ```yaml
+# Configure DNS - NOT ON EXAM
+sudo vim /etc/hosts
+  # Add 192.168.49.2    nginxsvc.info mynginx.info
+minikube addons list # Check that ingress is enabled
+k create ns ckad-ns6
+k create deploy nginx-deployment --image=nginx:1.19 -n ckad-ns6 --replicas=3
+k expose -n ckad-ns6 deployment nginx-deployment --port=80
+k edit -n ckad-ns6 svc nginx-deployment
 
+# Update port info
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-10-03T14:08:01Z"
+  labels:
+    app: nginx-deployment
+  name: nginx-deployment
+  namespace: ckad-ns6
+  resourceVersion: "837888"
+  uid: f5fad2cb-1d38-4016-a33d-ec761739a8f2
+spec:
+  clusterIP: 10.101.48.16
+  clusterIPs:
+  - 10.101.48.16
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 32000
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx-deployment
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+
+# Verify svc now has NodePort Type
+k get svc -n ckad-ns6
+
+# Create ingress rule
+k create -n ckad-ns6 ingress nginxdeploy --class=default --rule="mynginx.info/=nginx-deployment:80"
+
+# Verify
+curl mynginx.info
 ```
 
 ## Using Network Policies
