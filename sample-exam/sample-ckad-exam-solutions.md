@@ -824,7 +824,8 @@ k describe svc myweb
 k get ep
 ```
 
-## Managing Pod Permissions
+## **Managing Pod Permissions
+I WOULD HAVE GOTTEN THIS ALL WRONG. NEED TO REVIEW SECURITYCONTEXT AND SERVICEACCOUNTS.
 
 ### My Solution
 ```yaml
@@ -860,5 +861,15 @@ k apply -f pod-aa.yaml
 
 ### Instructor's Solution
 ```yaml
+k run sleepybox --image=busybox --dry-run=client -o yaml -- sleep 3600 > task1515.yaml
 
+# Look up securityContext
+k explain pod.spec.securityContext | less
+
+vi task1515.yaml
+# Add securityContext info to spec
+
+spec:
+  securityContext:
+    fsgroup: 2000
 ```
