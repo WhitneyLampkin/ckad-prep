@@ -708,7 +708,41 @@ kubectl set resources deployment restrictginx --limits=memory=256Mi --requests=m
 
 ### Instructor's Solution
 ```yaml
+# Create
+k create ns limited
+k create quota limitedquota -n limited --hard=cpu=1,memory=2G,pods=5
 
+# Verify
+k describe ns limited # check for quota settings
+
+# Create deployment and set resources
+k create deploy restrictnginx -n limited --replicas=3 --image=nginx 
+k set resources -n limited deployment restrictnginx --limits=memory=256Mi --requests=memory=64Mi
+
+# Verify
+k get all -n limited
+
+# Error - Not seeing the updates
+
+# k describe -n limited rs [RS_NAME]
+# Error - failed limit quota - must specify CPU quota on deployment also!
+
+# Set limites on deployment
+k create deploy restrictnginx -n limited --replicas=3 --image=nginx --limits=cpu=1 --requests=cpu=1
+
+# Verify again - need to set minicore...
+
+# Use millicore instead of an entire CPU
+k create deploy restrictnginx -n limited --replicas=3 --image=nginx --limits=cpu=200m --requests=cpu=200m
+
+# Delete and recreate adn set limits again
+k delete deploy restrictnginx -n limited
+k create deploy restrictnginx -n limited --replicas=3 --image=nginx
+k create deploy restrictnginx -n limited --replicas=3 --image=nginx --limits=cpu=200m --requests=cpu=200m
+k set resources -n limited deployment restrictnginx --limits=memory=256Mi --requests=memory=64Mi
+
+# Verify
+k describe ns limited
 ```
 
 ## Creating Canary Deployments
