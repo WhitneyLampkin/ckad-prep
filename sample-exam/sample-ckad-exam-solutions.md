@@ -22,7 +22,7 @@ k create -f task1.yaml
 k get pods -n ckad-ns1
 ```
 
-## Using Secrets
+## **Using Secrets
 
 ### My Solution
 ```yaml
