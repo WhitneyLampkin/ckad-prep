@@ -34,7 +34,7 @@ export do="--dry-run=client -o yaml"
 alias kn="kubectl config set-context --current -namespace"
 ```
 
-## Features
+## Content
 
 This project's content is as follows:
 
