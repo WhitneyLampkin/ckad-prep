@@ -38,7 +38,7 @@ alias kn="kubectl config set-context --current -namespace"
 
 This project's content is as follows:
 
-⭐ Copilot - AI-generated exam prep resources and information (**CAUTION** Use at your own risk).
+⭐ Copilot - AI-generated exam prep resources and information (**CAUTION** - use at your own risk).
 <br />
 ⭐ Demos - Course demos from the official CKAD exam prep video series by O'Reilly.
 <br />
