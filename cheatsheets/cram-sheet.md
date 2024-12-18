@@ -18,3 +18,15 @@
 | CronJobs | --------- | ------------ |
 | **PersistentVolumes** | --------- | ------------ |
 | PersistentVolumeClaims | --------- | ------------ |
+
+## Use Manifest Files to Modify K8s Objects
+- Always make backup copies of manifest files.
+- Get familiar with K8s documentation and where to find manifest files.
+- Know how to modify manifest files.
+
+## Common Commands
+- `man` - loop up syntax for common Linux commands.
+- `curl` - inspect Deployment, Service or Ingress resources.
+- `wget` - 
+- `docker`
+- `vi` - know "NORMAL" and "INSERT" modes and how to switch between the two.
