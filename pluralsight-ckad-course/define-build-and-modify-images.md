@@ -31,3 +31,6 @@ docker image rm [REPOSITORY]:[TAG]
 docker --help
 docker [COMMAND] --help
 ```
+
+## Reminders
+- `docker -f` flag can be used to specify a DOCKERFILE in a different directory.
