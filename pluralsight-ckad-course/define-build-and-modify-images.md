@@ -34,3 +34,5 @@ docker [COMMAND] --help
 
 ## Reminders
 - `docker -f` flag can be used to specify a DOCKERFILE in a different directory.
+- Local image names must match the remote repository name or image pushes will fail in Docker.
+- <TODO>: Check if `docker` has an `oci-archive` tag.
