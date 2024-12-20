@@ -53,6 +53,8 @@ docker [COMMAND] --help
 ```
 
 ## Reminders
+- Pay attention to nested sections in the manifest files for each K8s object.
 - `docker -f` flag can be used to specify a DOCKERFILE in a different directory.
 - Local image names must match the remote repository name or image pushes will fail in Docker.
 - <TODO - Check if `docker` has an `oci-archive` tag.>
+- Job properties to remember: `activeDeadlineSeconds`, `ttlSecondsAFterFinsihed`, `completions`, `parallelism` and `backoffLimit`.
