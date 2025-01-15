@@ -16,6 +16,34 @@
 - Imperatively
   ```shell
   k create deployment [DEPLOYMENT_NAME] --image=[IMAGE_NAME} --dry-run=client -o yaml [FILE_NAME].yaml
+  k create -f [DEPLOYMENT_NAME].yaml
+  ```
+
+### Scaling Deployments
+- Declaratively
+  ```shell
+  vim [DEPLOYMENT_NAME].yaml
+
+  # Update yaml file
+
+  k apply -f [DEPLOYMENT_NAME].yaml
+  ```
+- Imperatively
+  ```shell
+  k scale deployment [DEPLOYMENT_NAME] --replicas=[#]
+  ```
+
+### Changing a Deployment Image
+  ```shell
+  vim [DEPLOYMENT_NAME].yaml
+
+  # Update yaml file
+
+  k apply -f [DEPLOYMENT_NAME].yaml
+  ```
+- Imperatively
+  ```shell
+  k set image deployment/[DEPLOYMENT_NAME] [NEW_IMAGE_NAME]
   ```
 
 ## Understand Deployments and How to Perform Rolling Updates
