@@ -44,7 +44,7 @@ exit; exit
 scp -i $(minikube ssh-key) docker@$(minikube ip):/tmp/admin.conf~/.kube/confg
 ```
 
-## Using Prbes
+## Using Probes
 ```yaml
 k create -f busybox-ready.yaml
 k get pods
