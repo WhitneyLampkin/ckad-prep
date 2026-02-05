@@ -57,6 +57,7 @@ kubectl delete pod web
 
 Repeat until typing is automatic.
 
+
 ✅ CKAD rewards command fluency, not creativity.
 
 
@@ -110,6 +111,7 @@ spec:
   ports:
   - port: 80
     targetPort: 80
+
 
 
 
@@ -183,6 +185,7 @@ Must modify only a single field
 Must not break running workloads
 Constraint Drill Example
 
+
 Modify an existing Deployment to add an environment variable without recreating it.
 
 
@@ -246,3 +249,168 @@ Observe fast
 Act surgically
 Validate constantly
 Don’t panic
+
+
+✅ CKAD rewards calm, fluent executors — not Kubernetes philosophers.
+
+
+
+
+CKAD‑Style Practice Scenarios (No Solutions)
+Below are exam‑style tasks modeled after real CKAD questions. Each scenario includes explicit constraints. Do not solve them immediately — read, plan, then execute.
+
+
+⏱ Recommended timing: 5–8 minutes per scenario
+
+
+
+
+Scenario 1: Pod Creation with Environment Variables
+Task: Create a Pod named env-pod using the busybox image.
+Constraints:
+
+Must run in namespace dev
+Must define an environment variable MODE=prod
+Pod must run the command sleep 3600
+Do not use imperative kubectl run without --dry-run
+
+
+Scenario 2: Deployment Scaling Under Constraint
+Task: Update an existing Deployment named web-app.
+Constraints:
+
+Scale replicas to 4
+Must not recreate or delete the Deployment
+Must not modify labels or container image
+
+
+Scenario 3: Service Exposure
+Task: Expose an existing Deployment api via a Service.
+Constraints:
+
+Service name must be api-svc
+Use ClusterIP
+Service must expose port 8080 to container port 80
+Do not edit Deployment YAML
+
+
+Scenario 4: ConfigMap Injection (envFrom)
+Task: Inject configuration into an existing Pod config-pod.
+Constraints:
+
+ConfigMap name: app-settings
+Must inject all keys as environment variables
+Must not delete or recreate the Pod
+
+
+Scenario 5: ConfigMap as Volume
+Task: Mount a ConfigMap into a Pod.
+Constraints:
+
+Pod name: volume-pod
+ConfigMap name: file-config
+Mount path: /etc/config
+Read‑only mount
+
+
+Scenario 6: Secret Consumption
+Task: Consume an existing Secret db-secret.
+Constraints:
+
+Must expose key PASSWORD as env var DB_PASSWORD
+Pod name: secret-pod
+Do not hardcode secret values
+
+
+Scenario 7: Liveness Probe Addition
+Task: Add a liveness probe to an existing container.
+Constraints:
+
+Deployment name: health-app
+HTTP GET probe on /healthz port 8080
+Initial delay: 15s
+Period: 10s
+Do not change readiness probes
+
+
+Scenario 8: Troubleshooting via Logs
+Task: Identify why Pod crash-pod keeps restarting.
+Constraints:
+
+Do not modify Pod spec
+Use logs and describe only
+Identify failing container if multiple exist
+
+
+Scenario 9: Exec‑Based Validation
+Task: Validate file existence inside a running container.
+Constraints:
+
+Pod name: inspect-pod
+File path: /data/config.yaml
+Must not copy files out of the Pod
+
+
+Scenario 10: Namespace Isolation
+Task: Create resources in the correct namespace.
+Constraints:
+
+Namespace: testing
+All resources must be created in testing
+Must not specify namespace flag repeatedly (optimize workflow)
+
+
+Scenario 11: Job Creation
+Task: Create a Job that runs once.
+Constraints:
+
+Job name: one-shot
+Image: busybox
+Command: echo CKAD
+Job must complete successfully
+
+
+Scenario 12: CronJob Definition
+Task: Define a CronJob.
+Constraints:
+
+Name: heartbeat
+Schedule: every 5 minutes
+Image: busybox
+Command: date
+Do not run immediately
+
+
+Scenario 13: Resource Limits
+Task: Add resource constraints to an existing Pod.
+Constraints:
+
+Pod name: limited-pod
+CPU request: 100m
+CPU limit: 200m
+Memory request: 64Mi
+Memory limit: 128Mi
+
+
+Scenario 14: ServiceAccount Usage
+Task: Run a Pod using a specific ServiceAccount.
+Constraints:
+
+Pod name: sa-pod
+ServiceAccount: app-sa
+Do not create new ServiceAccounts
+
+
+Scenario 15: Field‑Level Modification Only
+Task: Modify an existing Deployment.
+Constraints:
+
+Change container image to nginx:1.25
+Must not modify any other fields
+Use the smallest possible change
+
+
+
+
+✅ These scenarios intentionally mirror CKAD wording: clear task + sharp constraints.
+Practice reading once, planning fast, executing clean.
