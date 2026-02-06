@@ -272,32 +272,33 @@ livenessProbe:
 
 **Understand where probes live (inside container spec).**
 
+## Memory System #5: Constraint‑Based Scenarios
 
-Memory System #5: Constraint‑Based Scenarios
 CKAD questions almost always include constraints:
 
-Must not delete existing resources
-Must work in a specific namespace
-Must modify only a single field
-Must not break running workloads
-Constraint Drill Example
+- Must not delete existing resources
+- Must work in a specific namespace
+- Must modify only a single field
+- Must not break running workloads
 
+### Constraint Drill Example
 
-Modify an existing Deployment to add an environment variable without recreating it.
+**Task:** Modify an existing Deployment to add an environment variable without recreating it.
 
-
+```bash
 kubectl edit deployment web
+```
 
+**or**
 
-or
+```bash
 kubectl patch deployment web \
   -p '{"spec":{"template":{"spec":{"containers":[{"name":"app","env":[{"name":"MODE","value":"prod"}]}]}}}}'
+```
 
+**Practicing these constraints locks in real exam conditions.**
 
-Practicing these constraints locks in real exam conditions.
-
-
-Namespaces (Critical but Under‑Practiced)
+### Namespaces (Critical but Under‑Practiced)
 
 Many failures occur simply due to wrong namespace.
 
