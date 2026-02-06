@@ -77,6 +77,26 @@ kubectl delete deployment api
 kubectl delete svc api-svc
 ```
 
+**Accessing ClusterIP Services (3 Options):**
+
+```bash
+# Option 1: Port Forward (fastest for testing)
+kubectl port-forward service/api-svc 8080:80
+# Access at http://localhost:8080
+# Press Ctrl+C to stop
+
+# Option 2: Change to NodePort (exposes on node's IP)
+kubectl delete service api-svc
+kubectl expose deployment api --port=80 --target-port=80 --type=NodePort --name=api-svc
+kubectl get svc api-svc  # Note the NodePort assigned
+# Access at http://<node-ip>:<node-port>
+
+# Option 3: kubectl proxy (creates proxy to API server)
+kubectl proxy --port=8080
+# Access at http://localhost:8080/api/v1/namespaces/default/services/api-svc/proxy/
+# Press Ctrl+C to stop
+```
+
 #### Exercise 3: Live Configuration Updates
 **Goal:** Complete in under 3 minutes.
 
