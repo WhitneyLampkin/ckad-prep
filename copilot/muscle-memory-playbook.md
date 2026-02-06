@@ -47,19 +47,80 @@ High‑scoring candidates don't "think" about commands — they type them reflex
 - `kubectl edit`
 - `kubectl explain`
 
-### Example Drill (No Docs Allowed)
+### Exercise Drills (No Docs Allowed)
 
-**Goal:** Complete all steps in under 2 minutes.
+**Practice these until typing is automatic. Repeat daily.**
+
+#### Exercise 1: Pod Lifecycle & Inspection
+**Goal:** Complete in under 2 minutes.
 
 ```bash
 kubectl run web --image=nginx --restart=Never --dry-run=client -o yaml > pod.yaml
 kubectl apply -f pod.yaml
+kubectl describe pod web
 kubectl logs web
 kubectl exec -it web -- /bin/sh
+# Inside container: exit
 kubectl delete pod web
 ```
 
-**Repeat until typing is automatic.**
+#### Exercise 2: Deployment Creation & Scaling
+**Goal:** Complete in under 2 minutes.
+
+```bash
+kubectl create deployment api --image=nginx --replicas=2
+kubectl get deployment api -o yaml > deployment.yaml
+kubectl scale deployment api --replicas=5
+kubectl expose deployment api --port=80 --target-port=80 --name=api-svc
+kubectl get svc,deploy,pods
+kubectl delete deployment api
+kubectl delete svc api-svc
+```
+
+#### Exercise 3: Live Configuration Updates
+**Goal:** Complete in under 3 minutes.
+
+```bash
+kubectl create deployment app --image=busybox -- sleep 3600
+kubectl set env deployment app ENV=production MODE=debug
+kubectl describe deployment app | grep -i env
+kubectl edit deployment app
+# In editor: change replicas to 3, then save & quit
+kubectl get pods -w
+# Ctrl+C to stop watching
+kubectl delete deployment app
+```
+
+#### Exercise 4: Documentation & Discovery
+**Goal:** Complete in under 1 minute.
+
+```bash
+kubectl explain pod.spec.containers
+kubectl explain deployment.spec.replicas
+kubectl explain service.spec.type
+kubectl explain pod.spec.containers.livenessProbe
+```
+
+#### Exercise 5: Full Workflow Integration
+**Goal:** Complete in under 4 minutes.
+
+```bash
+kubectl run debug --image=busybox --restart=Never -- sleep 3600
+kubectl get pod debug -o yaml > debug-pod.yaml
+kubectl describe pod debug
+kubectl exec -it debug -- sh
+# Inside container: ls -la && exit
+kubectl create deployment web --image=nginx --replicas=3
+kubectl scale deployment web --replicas=5
+kubectl expose deployment web --port=80 --name=web-service
+kubectl set env deployment web APP_VERSION=v1.0
+kubectl logs deployment/web
+kubectl delete pod debug
+kubectl delete deployment web
+kubectl delete svc web-service
+```
+
+**Repeat these exercises until all commands flow without hesitation.**
 
 ✅ **CKAD rewards command fluency, not creativity.**
 
