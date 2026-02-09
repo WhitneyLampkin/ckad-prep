@@ -212,6 +212,9 @@ You should be able to type core YAML structures from memory without copying.
 
 ### Pod YAML Skeleton (From Memory)
 
+<details>
+<summary>Pod YAML Skeleton</summary>
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -225,7 +228,12 @@ spec:
     - containerPort: 80
 ```
 
+</details>
+
 ### Deployment YAML Skeleton
+
+<details>
+<summary>Deployment YAML Skeleton</summary>
 
 ```yaml
 apiVersion: apps/v1
@@ -249,7 +257,12 @@ spec:
         - containerPort: 80
 ```
 
+</details>
+
 ### Service YAML Skeleton
+
+<details>
+<summary>Service YAML Skeleton</summary>
 
 ```yaml
 apiVersion: v1
@@ -263,6 +276,8 @@ spec:
   - port: 80
     targetPort: 80
 ```
+
+</details>
 
 ✅ **CKAD tests structure recall, not YAML originality.**
 
