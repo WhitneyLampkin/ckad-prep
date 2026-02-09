@@ -54,6 +54,17 @@ High‑scoring candidates don't "think" about commands — they type them reflex
 #### Exercise 1: Pod Lifecycle & Inspection
 **Goal:** Complete in under 2 minutes.
 
+**Task Summary:**
+1. Generate pod YAML from image and save.
+2. Apply YAML to create the pod.
+3. Describe the pod to review config/events.
+4. Check pod logs.
+5. Exec into the container, verify, exit.
+6. Delete the pod.
+
+<details>
+<summary>Exercise 1: Solution</summary>
+
 ```bash
 kubectl run web --image=nginx --restart=Never --dry-run=client -o yaml > pod.yaml
 kubectl apply -f pod.yaml
@@ -63,9 +74,21 @@ kubectl exec -it web -- /bin/sh
 # Inside container: exit
 kubectl delete pod web
 ```
+</details>
 
 #### Exercise 2: Deployment Creation & Scaling
 **Goal:** Complete in under 2 minutes.
+
+**Task Summary:**
+1. Create a deployment with image and replicas.
+2. Export deployment YAML to a file.
+3. Scale the deployment up.
+4. Expose the deployment as a Service.
+5. Verify resources (svc, deploy, pods).
+6. Delete the deployment and service.
+
+<details>
+<summary>Exercise 2: Solution</summary>
 
 ```bash
 kubectl create deployment api --image=nginx --replicas=2
@@ -96,9 +119,21 @@ kubectl proxy --port=8080
 # Access at http://localhost:8080/api/v1/namespaces/default/services/api-svc/proxy/
 # Press Ctrl+C to stop
 ```
+</details>
 
 #### Exercise 3: Live Configuration Updates
 **Goal:** Complete in under 3 minutes.
+
+**Task Summary:**
+1. Create a deployment running a long-lived command.
+2. Set environment variables on the deployment.
+3. Verify env via describe.
+4. Edit deployment (e.g., replicas) and save.
+5. Watch pods for changes.
+6. Delete the deployment.
+
+<details>
+<summary>Exercise 3: Solution</summary>
 
 ```bash
 kubectl create deployment app --image=busybox -- sleep 3600
@@ -110,9 +145,19 @@ kubectl get pods -w
 # Ctrl+C to stop watching
 kubectl delete deployment app
 ```
+</details>
 
 #### Exercise 4: Documentation & Discovery
 **Goal:** Complete in under 1 minute.
+
+**Task Summary:**
+1. Explain pod containers fields.
+2. Explain deployment replicas.
+3. Explain service type.
+4. Explain liveness probe.
+
+<details>
+<summary>Exercise 4: Solution</summary>
 
 ```bash
 kubectl explain pod.spec.containers
@@ -120,9 +165,25 @@ kubectl explain deployment.spec.replicas
 kubectl explain service.spec.type
 kubectl explain pod.spec.containers.livenessProbe
 ```
+</details>
 
 #### Exercise 5: Full Workflow Integration
 **Goal:** Complete in under 4 minutes.
+
+**Task Summary:**
+1. Run a debug pod and keep it alive.
+2. Export pod YAML to a file.
+3. Describe the debug pod.
+4. Exec into container to inspect; exit.
+5. Create a web deployment.
+6. Scale the deployment up.
+7. Expose deployment as a Service.
+8. Set env on the deployment.
+9. View logs from the deployment.
+10. Clean up: delete pod, deployment, and service.
+
+<details>
+<summary>Exercise 5: Solution</summary>
 
 ```bash
 kubectl run debug --image=busybox --restart=Never -- sleep 3600
@@ -139,6 +200,7 @@ kubectl delete pod debug
 kubectl delete deployment web
 kubectl delete svc web-service
 ```
+</details>
 
 **Repeat these exercises until all commands flow without hesitation.**
 
