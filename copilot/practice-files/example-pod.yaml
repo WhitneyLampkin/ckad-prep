@@ -1,0 +1,9 @@
+apiVersion: v1
+metadata:
+  name: example-pod
+kind: Pod
+spec:
+  containers:
+  - image: nginx
+    name: yamlpodcontainer
+  restartPolicy: Never   

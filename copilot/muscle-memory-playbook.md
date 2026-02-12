@@ -51,6 +51,57 @@ High‑scoring candidates don't "think" about commands — they type them reflex
 
 **Practice these until typing is automatic. Repeat daily.**
 
+#### Exercise 0: Docker / Container Runtime Drill (CKAD-Relevant)
+**Goal:** Complete in under 4 minutes.
+
+**Task Summary:**
+1. Pull an image using a pinned tag.
+2. Start a container in detached mode with a name.
+3. Publish a port and verify the service responds.
+4. Pass an environment variable into the container.
+5. Practice `logs` and `exec` to troubleshoot.
+6. Inspect the container to find config (ports, env, mounts).
+7. Use a bind mount to replace `index.html` (mirrors “mount a file into a container”).
+8. Clean up containers and the image.
+
+<details>
+<summary>Exercise 0: Solution</summary>
+
+```bash
+# 1) Pull a pinned image tag
+docker pull nginx:1.25
+
+# 2) Run container detached with a name + publish port
+docker run -d --name ckad-nginx -p 8080:80 nginx:1.25
+
+# 3) Verify it responds
+curl -sS http://localhost:8080 | head
+
+# 4) Run a second container with env injected (no port needed)
+docker run -d --name ckad-nginx-env -e MODE=prod nginx:1.25
+
+# 5) Logs + exec
+docker logs --tail=20 ckad-nginx
+docker exec -it ckad-nginx /bin/sh
+# Inside: ls -la /usr/share/nginx/html && exit
+
+# 6) Inspect key runtime details (env/ports/mounts)
+docker inspect ckad-nginx --format 'Ports={{json .NetworkSettings.Ports}}'
+docker inspect ckad-nginx-env --format 'Env={{json .Config.Env}}'
+
+# 7) Bind-mount a custom index.html (mirrors volume mount patterns)
+printf 'hello from docker drill\n' > index.html
+docker run -d --name ckad-nginx-mount -p 8081:80 \
+  -v "$PWD/index.html:/usr/share/nginx/html/index.html:ro" \
+  nginx:1.25
+curl -sS http://localhost:8081
+
+# 8) Cleanup
+docker rm -f ckad-nginx ckad-nginx-env ckad-nginx-mount
+docker image rm nginx:1.25
+```
+</details>
+
 #### Exercise 1: Pod Lifecycle & Inspection
 **Goal:** Complete in under 2 minutes.
 
