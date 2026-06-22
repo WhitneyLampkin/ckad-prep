@@ -23,7 +23,7 @@ kubectl create ns ns-name
 
 
 ## Pod
-kubectl run pod-name --image busybox --dry-run=client --command sleep 3600 --labels tier=backend --dry-run=client -o yaml > pod.yml
+kubectl run pod-name --image busybox --command sleep 3600 --labels tier=backend --dry-run=client -o yaml > pod.yml
 # get into container with shell interface
 kubectl exec -it pod-name -- sh
 # output logs, i.e capturing log lines has error keyword
