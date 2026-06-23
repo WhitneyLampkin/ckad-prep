@@ -1,5 +1,7 @@
 # Random CKAD Notes
 
+## IMPORTANT: CREATE BACKUPS OF ALL YAML FILES PROVDIED!!!
+
 ## My Most Annoying Concepts
 **Using Commands**
 - Docker: `ENTRYPOINT` --> K8S: `command`
@@ -57,8 +59,10 @@ readinessProbe: # add
 ## Creating Services
 `k run <pod_name> ...` - create a pod or deployment, etc.
 `k expose <pod or deployment> --type=ClusterIP(default) ...` - expose pod, deployments, etc with new service
+`-- curl http://project-plt-6cc-svc.pluto:3333` - curl a service by svc-name.namespace:port from a temp pod (namespace can be deleted if running in that context already)
 
 ## Other Notes
 `> [file_name]` - output to file
 `k describe pod [pod_name] | grep -i status:` - output the current status of a pod
-`k describe job` - see job history in Events section 
+`k describe job` - see job history in Events section
+`--labels project=plt-6cc-api` - add labels to pods
