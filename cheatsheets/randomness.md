@@ -11,7 +11,7 @@
     - Yes: Use `sh -c`
     - No: Use `--`
    
-## Service Account + Secret Flow
+## Service Account + Token + Secret + Pod Definition + RoleBinding Flow
 - Service Account (identity) + Token (credential) + Secret (storage for the credential)
   1. Create SA: `kubectl create sa my-sa` - provides identity but not credentials to do anything yet.
   2. Create Secret w/ proper annotation (below) - K8s will detect that the secret is for the SA and generate a JWT token that is stored in `.data.token (base64 encoded)`
