@@ -54,14 +54,14 @@
   spec:
     volumes: # add
     - name: data # add
-    persistentVolumeClaim: # add
-    claimName: earth-project-earthflower-pvc # add
+      persistentVolumeClaim: # add
+      claimName: earth-project-earthflower-pvc # add
     containers:
     - image: httpd:2.4.41-alpine
-    name: container
-    volumeMounts: # add
+      name: container
+      volumeMounts: # add
     - name: data # add
-    mountPath: /tmp/project-data # add
+      mountPath: /tmp/project-data # add
   ```
 
 ## Readiness Probe that executes a command:
