@@ -44,6 +44,11 @@
   ```
 - SAs are used with pods, deployments, jobs and cronjobs...
 
+## PV + PVC + Deployment/Pod Flow
+- `PV` - Physical storage
+- `PVC` - Request for storage
+- `Pod/Deployment` - uses container volume and volumeMounts to mount to PV storage via the PVC
+
 ## Readiness Probe that executes a command:
 ```yaml
 readinessProbe: # add
@@ -66,3 +71,4 @@ readinessProbe: # add
 `k describe pod [pod_name] | grep -i status:` - output the current status of a pod
 `k describe job` - see job history in Events section
 `--labels project=plt-6cc-api` - add labels to pods
+- only use `volumeName` when binding new PVCs to existing PV
