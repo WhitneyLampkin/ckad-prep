@@ -33,6 +33,30 @@
     serviceAccountName: my-sa
     ```
 - K8s automatically injects into containers at `/var/run/secrets/kubernetes.io/serviceaccount/token`
+- `ServiceAccount` is the identity, but `RoleBinding` describes what it can do:
+  ```yaml
+  kind: RoleBinding
+  subjects:
+  - kind: ServiceAccount
+    name: my-sa
+  ```
+- SAs are used with pods, deployments, jobs and cronjobs...
+
+## Readiness Probe that executes a command:
+```yaml
+readinessProbe: # add
+  exec: # add
+    command: # add
+    - sh # add
+    - -c # add
+    - cat /tmp/ready # add
+  initialDelaySeconds: 5 # add
+  periodSeconds: 10 # add
+```
+
+## Creating Services
+`k run <pod_name> ...` - create a pod or deployment, etc.
+`k expose <pod or deployment> --type=ClusterIP(default) ...` - expose pod, deployments, etc with new service
 
 ## Other Notes
 `> [file_name]` - output to file
