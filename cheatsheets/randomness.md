@@ -81,6 +81,15 @@ readinessProbe: # add
 `k expose <pod or deployment> --type=ClusterIP(default) ...` - expose pod, deployments, etc with new service
 `-- curl http://project-plt-6cc-svc.pluto:3333` - curl a service by svc-name.namespace:port from a temp pod (namespace can be deleted if running in that context already)
 
+## Create Config Maps
+```yaml
+# Create a new config map named my-config with specified keys instead of file basenames on disk
+kubectl create configmap my-config --from-file=key1=/path/to/bar/file1.txt --from-file=key2=/path/to/bar/file2.txt
+  
+# Create a new config map named my-config with key1=config1 and key2=config2
+kubectl create configmap my-config --from-literal=key1=config1 --from-literal=key2=config2
+```
+
 ## Other Notes
 `> [file_name]` - output to file
 `k describe pod [pod_name] | grep -i status:` - output the current status of a pod
