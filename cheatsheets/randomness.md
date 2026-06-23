@@ -46,8 +46,23 @@
 
 ## PV + PVC + Deployment/Pod Flow
 - `PV` - Physical storage
+  - MUST COPY YAML FROM DOCS
 - `PVC` - Request for storage
+  - MUST COPY YAML FROM DOCS
 - `Pod/Deployment` - uses container volume and volumeMounts to mount to PV storage via the PVC
+  ```yaml
+  spec:
+    volumes: # add
+    - name: data # add
+    persistentVolumeClaim: # add
+    claimName: earth-project-earthflower-pvc # add
+    containers:
+    - image: httpd:2.4.41-alpine
+    name: container
+    volumeMounts: # add
+    - name: data # add
+    mountPath: /tmp/project-data # add
+  ```
 
 ## Readiness Probe that executes a command:
 ```yaml
