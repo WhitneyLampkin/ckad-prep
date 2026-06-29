@@ -1,21 +1,27 @@
-🐳🧠 CKAD Memory Drills
+# CKAD Memory Drills
 
-Volumes
-Persistent storage 
-—————————
-SPE(E)CH
-* Secret
-* PersistentVolumeClaim
-* EmptyDir
-* ConfigMap
-* HostPath
+## Volumes
 
-Secret
+Persistent storage.
+
+### SPE(E)CH
+
+- Secret
+- PersistentVolumeClaim
+- EmptyDir
+- ConfigMap
+- HostPath
+
+### Secret
+
+```yaml
 volumes:
 - name:
   secret:
     secretName:
+```
 
+```yaml
 volumes:
 - name:
   secret:
@@ -23,139 +29,180 @@ volumes:
     items:
       key:
       path:
+```
 
 Secret path in containers:
-/var/run/secrets/kubernetes.io/serviceaccount/
 
-PersistentVolumeClaim
+`/var/run/secrets/kubernetes.io/serviceaccount/`
+
+### PersistentVolumeClaim
+
+```yaml
 volumes:
 - name:
   persistentVolumeClaim:
     claimName:
+```
 
-EmptyDir
+### EmptyDir
+
+```yaml
 volumes:
 - name:
   emptyDir:
+```
 
-ConfigMap
+### ConfigMap
+
+```yaml
 volumes:
- - name:
-   configMap:
-     name:
+- name:
+  configMap:
+    name:
+```
 
-HostPath
+### HostPath
+
+```yaml
 volumes:
 - name:
   hostPath:
     path:
-———————————————
+```
 
-ENV VARS
-Configuration via environment variables
-—————————————————————
-ACE
-* All - EnvFrom/Ref/Name
-* CM/Secret Key - ValueFrom/KeyRef/Name
-* Env - Name/Value
+## Env Vars
 
-EnvFrom/Ref
+Configuration via environment variables.
+
+### ACE
+
+- All: EnvFrom/Ref/Name
+- CM/Secret Key: ValueFrom/KeyRef/Name
+- Env: Name/Value
+
+### EnvFrom/Ref
+
+```yaml
 env:
 - name:
   envFrom:
     configMapRef:
       name:
+```
 
+```yaml
 env:
 - name:
   envFrom:
     secretRef:
       name:
+```
 
-ConfigMap/Secret KeyRef
+### ConfigMap/Secret KeyRef
+
+```yaml
 env:
 - name:
   valueFrom:
     configMapKeyRef:
       name:
       key:
+```
 
+```yaml
 env:
 - name:
   valueFrom:
     secretKeyRef:
       name:
       key:
+```
 
-ENV
+### Env
+
+```yaml
 env:
 - name:
   value:
-———————————————
+```
 
-RBAC
-Role based access control
-————————————
-SARB (RBAS)
-* SA - Service Account
-    * [Update Pod SA name]
-* R - Role
-* B - RoleBinding
+## RBAC
 
-Namespace: Role/RoleBinding
-Cluster: ClusterRole/ClusterRoleBinding
+Role-based access control.
 
-B(A)RNS - Failure Modes
-* Binding missing or wrong
-* Role missing resource or verb permissions 
-* Namespace mismatch
-* ServiceAccount missing (object or pod link)
+### SARB (RBAS)
 
+- SA: ServiceAccount
+- R: Role
+- B: RoleBinding
+
+Update pod service account name via `serviceAccountName`.
+
+- Namespace scope: Role/RoleBinding
+- Cluster scope: ClusterRole/ClusterRoleBinding
+
+### B(A)RNS Failure Modes
+
+- Binding missing or wrong
+- Role missing resource or verb permissions
+- Namespace mismatch
+- ServiceAccount missing (object or pod link)
+
+### Common Commands
+
+```bash
 kubectl create sa
 kubectl create role
 kubectl create rolebinding
-kubectl apply pod.yaml (with serviceAccountName)
+kubectl apply -f pod.yaml
+```
 
-Flow
-Service Account (linked to Pod)
-  ↓
-Role
-  ↓
-Role Binding
-  ↓
-Traffic routing
+### Flow
 
-Role.Rules.ApiGroups
-Resource type	apiGroups
-pods, services, configmaps	""
-deployments	apps
-jobs	batch
-cronjobs	batch
-ingresses	networking.k8s.io
+ServiceAccount (linked to Pod) -> Role -> RoleBinding -> Traffic routing
 
-Role.Rules.Verbs
-get
-list
-watch
-create
-update
-patch
-delete
-———————————————
+### Role Rules: apiGroups
 
-Services
-How traffic reaches pods
-—————————————
-CLE(A)N (C > N > L > E)
-* ClusterIp
-* Nodeport
-* Loadbalancer
-* ExternalName
+| Resource type | apiGroups |
+| --- | --- |
+| pods, services, configmaps | `""` |
+| deployments | `apps` |
+| jobs | `batch` |
+| cronjobs | `batch` |
+| ingresses | `networking.k8s.io` |
 
+### Role Rules: Verbs
+
+- get
+- list
+- watch
+- create
+- update
+- patch
+- delete
+
+## Services
+
+How traffic reaches pods.
+
+### CLE(A)N (C -> N -> L -> E)
+
+- ClusterIP
+- NodePort
+- LoadBalancer
+- ExternalName
+
+### Common Commands
+
+```bash
 kubectl create service clusterip
 kubectl create service nodeport
 kubectl create service loadbalancer
+```
 
+### Service Spec Template
+
+```yaml
 spec:
   type: ClusterIP | NodePort | LoadBalancer | ExternalName
   selector:
@@ -163,51 +210,53 @@ spec:
   ports:
   - port:
     targetPort:
+```
 
-Selectors
+### Selectors
+
 Services must exactly match pod labels via selectors to know which pods to expose.
 
-Flow
-Service
-  ↓
-Selector
-  ↓
-Pod labels
-  ↓
-Traffic routing
+### Flow
 
-Failure Modes
-L(A)TTS
-* Labels for pods
-* Type
-* Target Port
-* Selectors
+Service -> Selector -> Pod labels -> Traffic routing
 
-1. Do Pods have labels?
-2. Does selector match EXACTLY?
-3. Is targetPort correct?
-4. Is Service type correct?
+### Failure Modes: L(A)TTS
 
-Mappings
-Type	Entry Point
-ClusterIP	virtual cluster IP
-NodePort	<NodeIP>:port
-LoadBalancer	external IP
-ExternalName	DNS name
-———————————————
+- Labels for pods
+- Type
+- TargetPort
+- Selectors
 
-Network Policies
-Pod-level traffic (firewalls) ; allow or restrict traffic to pods using labels. 
-————————————
-* Linked via podSelector/matchLabels
-* Default - allow all
+Checklist:
 
+1. Do pods have labels?
+2. Does selector match exactly?
+3. Is `targetPort` correct?
+4. Is service type correct?
+
+### Mappings
+
+| Type | Entry Point |
+| --- | --- |
+| ClusterIP | Virtual cluster IP |
+| NodePort | `<NodeIP>:port` |
+| LoadBalancer | External IP |
+| ExternalName | DNS name |
+
+## Network Policies
+
+Pod-level traffic control (firewalls): allow or restrict traffic to pods using labels.
+
+- Linked via `podSelector` / `matchLabels`
+- Default behavior (without policy): allow all
+
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-something
 spec:
-  podSelector | namespaceSelector:
+  podSelector:
     matchLabels:
       app: backend
   policyTypes:
@@ -219,42 +268,52 @@ spec:
           app: frontend
     ports:
     - port: 80
+```
 
-# “Allow frontend to backend on port 80”
-# PFP
-podSelector: backend
-from: frontend
-port: 80
+Allow frontend to backend on port 80:
 
-1. Is podSelector targeting the correct Pods?
-2. Is policyType correct?
-3. Is from/to selector correct?
+- podSelector: backend
+- from: frontend
+- port: 80
+
+Checklist:
+
+1. Is `podSelector` targeting the correct pods?
+2. Is `policyTypes` correct?
+3. Is `from`/`to` selector correct?
 4. Are namespace labels correct?
 5. Is the port correct?
 6. Is traffic direction correct?
-———————————————
 
-Docker
-# docker build -t <image>:<tag> 
+## Docker
+
+```bash
+# Build image
 docker build -t myapp:v1 .
 
-# docker push <image>
+# Push image
 docker push myrepo/myapp:v1
 
+# Run container
 docker run --name app -d nginx
-# -d  detached
-# -p  port mapping
-# -e  env var
-# -v  volume
 
-# save image -o file.tar
+# Useful flags
+# -d detached
+# -p port mapping
+# -e env var
+# -v volume
+
+# Save image to tar file
 docker save myapp:v1 -o myapp.tar
-———————————————
+```
 
-Resource Management
+## Resource Management
 
-Requests & Limits
-Container level resource management 
+### Requests and Limits
+
+Container-level resource management:
+
+```yaml
 resources:
   requests:
     cpu: 100m
@@ -262,10 +321,13 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
+```
 
-LimitRanges
-Container limits per namespace
+### LimitRange
 
+Container limits per namespace.
+
+```yaml
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -279,10 +341,13 @@ spec:
     max:
       cpu: "1"
       memory: 1Gi
+```
 
-ResourceQuotas
-Total namespace resource budget
+### ResourceQuota
 
+Total namespace resource budget:
+
+```yaml
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -293,8 +358,11 @@ spec:
     requests.memory: 4Gi
     limits.cpu: "4"
     limits.memory: 8Gi
+```
 
-# Object counts
+Object count quota:
+
+```yaml
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -305,3 +373,4 @@ spec:
     services: "5"
     configmaps: "20"
     secrets: "20"
+```
