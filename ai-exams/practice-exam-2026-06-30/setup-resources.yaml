@@ -1,0 +1,300 @@
+---
+# Setup resources for realistic CKAD exam - 2026-06-30
+# Creates namespaces, base deployments, ConfigMaps, Secrets, and storage
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    environment: prod
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+  labels:
+    environment: staging
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+  labels:
+    tier: logging
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: production
+data:
+  APP_MODE: production
+  LOG_LEVEL: info
+  DATABASE_POOL_SIZE: "10"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: production
+data:
+  nginx.conf: |
+    worker_processes auto;
+    events { worker_connections 1024; }
+    http {
+      server {
+        listen 8080;
+        location /health { return 200 "ok\n"; }
+        location / { proxy_pass http://localhost:3000; }
+      }
+    }
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+  namespace: production
+type: Opaque
+stringData:
+  username: appuser
+  password: SecureP@ssw0rd123
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: registry-secret
+  namespace: production
+type: kubernetes.io/dockercfg
+stringData:
+  .dockercfg: '{"docker.io":{"username":"myuser","password":"mypass","email":"user@example.com"}}'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-logs
+  namespace: production
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-cache
+  namespace: production
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+        tier: backend
+    spec:
+      containers:
+      - name: api
+        image: nginx:1.25
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: APP_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_MODE
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-server-svc
+  namespace: production
+spec:
+  type: ClusterIP
+  selector:
+    app: api-server
+  ports:
+  - port: 80
+    targetPort: 3000
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+  namespace: production
+spec:
+  serviceName: database
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: db
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /data
+          touch /data/db.log
+          sleep 3600
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: broken-app
+  namespace: production
+spec:
+  containers:
+  - name: app
+    image: nginx:1.25
+    ports:
+    - containerPort: 8080
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-migration
+  namespace: production
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migrator
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - echo "migration done" && sleep 30
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-job
+  namespace: production
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup
+            image: busybox:1.36
+            command:
+            - sh
+            - -c
+            - echo "backup completed"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-deployer
+  namespace: production
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-manager
+  namespace: production
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments", "statefulsets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods", "services"]
+  verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-deployer-binding
+  namespace: production
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-manager
+subjects:
+- kind: ServiceAccount
+  name: app-deployer
+  namespace: production
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-ingress-policy
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: api-server
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          tier: frontend
+    ports:
+    - protocol: TCP
+      port: 3000
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-client
+  namespace: staging
+spec:
+  containers:
+  - name: client
+    image: curlimages/curl:8.8.0
+    command:
+    - sh
+    - -c
+    - sleep 3600

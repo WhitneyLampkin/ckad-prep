@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration
+  namespace: ckad-exam
+spec:
+  completions: 1
+  template:
+    metadata: {}
+    spec:
+      containers:
+      - command:
+        - echo
+        - migration complete
+        image: busybox
+        name: db-migration
+        resources: {}
+      restartPolicy: Never
+status: {}

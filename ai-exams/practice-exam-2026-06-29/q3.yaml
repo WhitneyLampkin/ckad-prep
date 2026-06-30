@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-payments  
+  namespace: payments
+spec:
+  podSelector:
+    matchLabels:
+      app: payments-api 
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          project: frontend
+      podSelector:
+        matchLabels:
+          access: allowed
+    ports:
+    - protocol: TCP
+      port: 5678
