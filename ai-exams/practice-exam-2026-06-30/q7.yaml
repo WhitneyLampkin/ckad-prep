@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+  namespace: production
+spec:
+  volumeClaimTemplates:
+  - metadata:
+      name: data-volume
+    spec:
+      accessModes: [ "ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 2Gi
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: database
+  serviceName: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      hostnameOverride: database-0.database.production.svc.cluster.local      
+      containers:
+      - command:
+        - sh
+        - -c
+        - |
+          mkdir -p /data1
+          touch /data1/db.log
+          sleep 3600
+        image: busybox:1.36
+        imagePullPolicy: IfNotPresent
+        name: db
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data1
+          name: data
+        - mountPath: /data
+          name: data-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: data
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate

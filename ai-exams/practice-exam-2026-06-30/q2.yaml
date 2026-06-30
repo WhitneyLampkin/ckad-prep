@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: worker
+  name: worker
+  namespace: production
+spec:
+  volumes:
+  - name: init-vol
+    configMap:
+      name: app-config
+  - name: shared-vol
+    emptyDir: {}
+  initContainers:
+  - name: worker-init
+    image: busybox:1.36
+    volumeMounts:
+    - name: shared-vol
+      mountPath: /config
+  containers:
+  - args: ["sh", "-c", "sleep 3600s && cat /config/app-config"]
+    image: busybox:1.36
+    name: worker
+    volumeMounts:
+    - name: shared-vol
+      mountPath: /config
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

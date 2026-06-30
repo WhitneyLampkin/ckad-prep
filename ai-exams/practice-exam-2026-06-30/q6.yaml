@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: config-watcher
+  name: config-watcher
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-watcher
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: config-watcher
+    spec:
+      volumes:
+      - name: shared-vol
+        configMap:
+          name: nginx-config
+      containers:
+      - image: nginx
+        name: nginx
+        volumeMounts:
+        - name: shared-vol
+          mountPath: /etc/nginx/conf.d
+        resources: {}
+status: {}
